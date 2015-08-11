@@ -68,6 +68,13 @@
         'raw_socket/udp_socket.idl',
         'raw_socket/udp_socket_object.cc',
         'raw_socket/udp_socket_object.h',
+        'iotivity/iotivity.idl',
+        'iotivity/iotivity_extension.cc',
+        'iotivity/iotivity_extension.h',
+        'iotivity/iotivity_object.cc',
+        'iotivity/iotivity_object.h',
+        'iotivity/oic_resource_object.cc',
+        'iotivity/oic_resource_object.h'
       ],
       'conditions': [
         ['OS!="android"', {

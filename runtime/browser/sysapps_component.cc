@@ -13,6 +13,8 @@ SysAppsComponent::SysAppsComponent() {
     manager_.DisableDeviceCapabilities();
   if (!XWalkRuntimeFeatures::isRawSocketsAPIEnabled())
     manager_.DisableRawSockets();
+  if (!XWalkRuntimeFeatures::isIotivityAPIEnabled())
+    manager_.DisableIotivity();
 }
 
 SysAppsComponent::~SysAppsComponent() {}

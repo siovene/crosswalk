@@ -85,6 +85,34 @@
       'includes': [ '../build/java_apk.gypi' ],
     },
     {
+      'target_name': 'xwalk_app_iotivity_demo_apk',
+      'type': 'none',
+      'dependencies': [
+        'xwalk_app_runtime_java',
+        'sysapps/sysapps.gyp:sysapps'
+      ],
+      'variables': {
+        'apk_name': 'XWalkAppIotivityDemo',
+        'java_in_dir': 'app/android/app_iotivity_demo',
+        'resource_dir': 'app/android/app_iotivity_demo/res',
+        'additional_input_paths': [
+          '<(PRODUCT_DIR)/app_iotivity_demo/assets/www/iotivity_demo_index.html',
+          '<(PRODUCT_DIR)/app_iotivity_demo/assets/www/sampapp-icon-helloworld.png',
+        ],
+        'asset_location': '<(PRODUCT_DIR)/app_iotivity_demo/assets',
+      },
+      'copies': [
+        {
+          'destination': '<(PRODUCT_DIR)/app_iotivity_demo/assets/www',
+          'files': [
+            'test/android/data/iotivity_demo_index.html',
+            'test/android/data/sampapp-icon-helloworld.png',
+          ],
+        },
+      ],
+      'includes': [ '../build/java_apk.gypi' ],
+    },
+    {
       # Combine runtime client and activity into one jar.
       'target_name': 'xwalk_app_runtime_java',
       'type': 'none',

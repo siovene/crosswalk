@@ -316,7 +316,7 @@
         'runtime/renderer/xwalk_content_renderer_client.cc',
         'runtime/renderer/xwalk_content_renderer_client.h',
         'runtime/renderer/xwalk_render_process_observer_generic.cc',
-        'runtime/renderer/xwalk_render_process_observer_generic.h',
+        'runtime/renderer/xwalk_render_process_observer_generic.h'
       ],
       'includes': [
         'xwalk_jsapi.gypi',

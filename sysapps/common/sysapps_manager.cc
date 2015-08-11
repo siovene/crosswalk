@@ -10,13 +10,16 @@
 #include "xwalk/sysapps/device_capabilities/display_info_provider.h"
 #include "xwalk/sysapps/device_capabilities/memory_info_provider.h"
 #include "xwalk/sysapps/raw_socket/raw_socket_extension.h"
+#include "xwalk/sysapps/iotivity/iotivity_extension.h"
+
 
 namespace xwalk {
 namespace sysapps {
 
 SysAppsManager::SysAppsManager()
     : device_capabilities_enabled_(true),
-      raw_sockets_enabled_(true) {}
+      raw_sockets_enabled_(true),
+      iotivity_enabled_(true) {}
 
 SysAppsManager::~SysAppsManager() {}
 
@@ -26,6 +29,10 @@ void SysAppsManager::DisableDeviceCapabilities() {
 
 void SysAppsManager::DisableRawSockets() {
   raw_sockets_enabled_ = false;
+}
+
+void SysAppsManager::DisableIotivity() {
+  iotivity_enabled_ = false;
 }
 
 void SysAppsManager::CreateExtensionsForUIThread(
@@ -42,6 +49,8 @@ void SysAppsManager::CreateExtensionsForExtensionThread(
     XWalkExtensionVector* extensions) {
   if (raw_sockets_enabled_)
     extensions->push_back(new RawSocketExtension());
+  if (iotivity_enabled_)
+    extensions->push_back(new IotivityExtension());
 }
 
 // static

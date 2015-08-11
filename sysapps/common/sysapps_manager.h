@@ -29,6 +29,7 @@ class SysAppsManager {
 
   void DisableDeviceCapabilities();
   void DisableRawSockets();
+  void DisableIotivity();
 
   void CreateExtensionsForUIThread(XWalkExtensionVector* extensions);
   void CreateExtensionsForExtensionThread(XWalkExtensionVector* extensions);
@@ -42,6 +43,7 @@ class SysAppsManager {
  private:
   bool device_capabilities_enabled_;
   bool raw_sockets_enabled_;
+  bool iotivity_enabled_;
 };
 
 }  // namespace sysapps
