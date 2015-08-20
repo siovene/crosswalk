@@ -105,8 +105,14 @@
           # on theirs include path because of the code we generate
           # from the IDL files.
           '<(SHARED_INTERMEDIATE_DIR)',
+          '<(IOTIVITY_CFLAGS)'
         ]
       },
+      'link_settings': {
+          'libraries': [
+            '<(IOTIVITY_LIBS) -loctbstack'
+          ]
+      }
     },
   ],
 }
