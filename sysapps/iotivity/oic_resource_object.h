@@ -19,6 +19,8 @@ class OicResourceObject : public EventTarget{
         ~OicResourceObject();
 
     private:
+        void RegisterHandlers();
+
         IotivityInstance* instance_;
 };
 

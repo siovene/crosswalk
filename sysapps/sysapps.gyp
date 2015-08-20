@@ -73,6 +73,7 @@
         'iotivity/iotivity_extension.h',
         'iotivity/iotivity_object.cc',
         'iotivity/iotivity_object.h',
+        'iotivity/oic_resource.idl',
         'iotivity/oic_resource_object.cc',
         'iotivity/oic_resource_object.h'
       ],

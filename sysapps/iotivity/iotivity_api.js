@@ -24,6 +24,15 @@ var OicResource = function(url, object_id) {
       enumerable: true,
     }
   });
+
+  // This is needed, otherwise events like "error" can get fired before
+  // we give the user a chance to register a listener.
+  function delayedInitialization(obj) {
+    obj._postMessage("init", [url]);
+  };
+
+  this._registerLifecycleTracker();
+  setTimeout(delayedInitialization, 0, this);
 };
 
 OicResource.prototype = new common.EventTargetPrototype();

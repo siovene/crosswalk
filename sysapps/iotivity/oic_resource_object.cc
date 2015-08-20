@@ -10,9 +10,13 @@ namespace sysapps {
 OicResourceObject::OicResourceObject(IotivityInstance* instance)
     : instance_(instance)
 {
+    RegisterHandlers();
 }
 
 OicResourceObject::~OicResourceObject() {}
+
+void OicResourceObject::RegisterHandlers() {
+}
 
 }  // namespace sysapps
 }  // namespace xwalk
