@@ -35,7 +35,7 @@ class IotivityInstance : public XWalkExtensionInstance {
                               scoped_ptr<BindingObject> obj);
 
     private:
-        void OnOicResourceConstructor(
+        void OnIotivityElevenConstructor(
             scoped_ptr<XWalkExtensionFunctionInfo> info);
 
         XWalkExtensionFunctionHandler handler_;

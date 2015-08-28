@@ -69,13 +69,15 @@
         'raw_socket/udp_socket_object.cc',
         'raw_socket/udp_socket_object.h',
         'iotivity/iotivity.idl',
+        'iotivity/iotivity_eleven.idl',
+        'iotivity/iotivity_eleven_object.cc',
+        'iotivity/iotivity_eleven_object.h',
+        'iotivity/iotivity_conversions.cc',
+        'iotivity/iotivity_conversions.h',
         'iotivity/iotivity_extension.cc',
         'iotivity/iotivity_extension.h',
         'iotivity/iotivity_object.cc',
-        'iotivity/iotivity_object.h',
-        'iotivity/oic_resource.idl',
-        'iotivity/oic_resource_object.cc',
-        'iotivity/oic_resource_object.h'
+        'iotivity/iotivity_object.h'
       ],
       'conditions': [
         ['OS!="android"', {
@@ -104,14 +106,19 @@
           # Build units including this module should have this
           # on theirs include path because of the code we generate
           # from the IDL files.
-          '<(SHARED_INTERMEDIATE_DIR)',
-          '<(IOTIVITY_CFLAGS)'
+          '<(SHARED_INTERMEDIATE_DIR)'
         ]
       },
+      'include_dirs': [
+        '<(IOTIVITY_CFLAGS)'
+      ],
       'link_settings': {
-          'libraries': [
-            '<(IOTIVITY_LIBS) -loctbstack'
-          ]
+        'ldflags': [
+          '<(IOTIVITY_LDFLAGS)'
+        ],
+        'libraries': [
+          '<(IOTIVITY_LIBS)'
+        ]
       }
     },
   ],

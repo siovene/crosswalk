@@ -4,11 +4,15 @@
 
 // Iotivity API
 namespace iotivity {
-    dictionary OicResource {
-        DOMString url;
+
+    //*************************************************************************
+    // 1:1 mapping
+    //*************************************************************************
+    dictionary IotivityEleven {
     };
 
     interface Functions {
-        [nodoc] static OicResource OicResourceConstructor(DOMString objectId);
-    };
+      [nodoc] static IotivityEleven IotivityElevenConstructor(
+          DOMString objectId);
+    }; 
 };

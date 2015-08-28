@@ -2,24 +2,25 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef XWALK_SYSAPPS_IOTIVITY_OIC_RESOURCE_OBJECT_H_
-#define XWALK_SYSAPPS_IOTIVITY_OIC_RESOURCE_OBJECT_H_
+#ifndef XWALK_SYSAPPS_IOTIVITY_ELEVEN_OBJECT_H_
+#define XWALK_SYSAPPS_IOTIVITY_ELEVEN_OBJECT_H_
 
 #include "xwalk/sysapps/iotivity/iotivity_extension.h"
-#include "xwalk/sysapps/common/event_target.h"
+#include "xwalk/sysapps/iotivity/iotivity_object.h"
 
 namespace xwalk {
 namespace sysapps {
 
 class BindingObjectStore;
 
-class OicResourceObject : public EventTarget{
+class IotivityElevenObject : public IotivityObject {
     public:
-        explicit OicResourceObject(IotivityInstance* instance);
-        ~OicResourceObject();
+        explicit IotivityElevenObject(IotivityInstance* instance);
+        ~IotivityElevenObject();
 
     private:
         void RegisterHandlers();
+        void OnOCInit(scoped_ptr<XWalkExtensionFunctionInfo> info);
 
         IotivityInstance* instance_;
 };
@@ -27,4 +28,4 @@ class OicResourceObject : public EventTarget{
 }  // namespace sysapps
 }  // namespace xwalk
 
-#endif  // XWALK_SYSAPPS_IOTIVITY_OIC_RESOURCE_OBJECT_H_
+#endif  // XWALK_SYSAPPS_IOTIVITY_ELEVEN_OBJECT_H_

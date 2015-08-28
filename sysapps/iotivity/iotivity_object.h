@@ -6,12 +6,13 @@
 #define XWALK_SYSAPPS_IOTIVITY_IOTIVITY_OBJECT_H_
 
 #include "xwalk/sysapps/iotivity/iotivity.h" // generated
+#include "xwalk/sysapps/common/event_target.h"
 
 namespace xwalk {
 namespace sysapps {
 
 // Base class for the objects of the Iotivity API.
-class IotivityObject {
+class IotivityObject : public EventTarget {
  public:
   ~IotivityObject();
 

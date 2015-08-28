@@ -3,11 +3,12 @@
 // found in the LICENSE file.
 
 #include "xwalk/sysapps/iotivity/iotivity_extension.h"
+#include "xwalk/sysapps/iotivity/iotivity_conversions.h"
 
 #include "grit/xwalk_sysapps_resources.h"
 #include "ui/base/resource/resource_bundle.h"
 #include "xwalk/sysapps/iotivity/iotivity.h" // generated
-#include "xwalk/sysapps/iotivity/oic_resource_object.h"
+#include "xwalk/sysapps/iotivity/iotivity_eleven_object.h"
 
 #include "base/logging.h"
 
@@ -20,7 +21,6 @@ IotivityExtension::IotivityExtension() {
     set_name("xwalk.experimental.iotivity");
     set_javascript_api(ResourceBundle::GetSharedInstance().GetRawDataResource(
         IDR_XWALK_SYSAPPS_IOTIVITY_API).as_string());
-    LOG(INFO) << "IotivityExtension";
 }
 
 IotivityExtension::~IotivityExtension() {}
@@ -31,9 +31,9 @@ XWalkExtensionInstance* IotivityExtension::CreateInstance() {
 
 IotivityInstance::IotivityInstance() : handler_(this), store_(&handler_) {
     handler_.Register(
-        "OicResourceConstructor",
+        "IotivityElevenConstructor",
         base::Bind(
-            &IotivityInstance::OnOicResourceConstructor,
+            &IotivityInstance::OnIotivityElevenConstructor,
             base::Unretained(this)));
 }
 
@@ -46,18 +46,18 @@ void IotivityInstance::AddBindingObject(const std::string& object_id,
     store_.AddBindingObject(object_id, obj.Pass());
 }
 
-void IotivityInstance::OnOicResourceConstructor(
+void IotivityInstance::OnIotivityElevenConstructor(
     scoped_ptr<XWalkExtensionFunctionInfo> info)
 {
-    scoped_ptr<OicResourceConstructor::Params>
-        params(OicResourceConstructor::Params::Create(*info->arguments()));
+    scoped_ptr<IotivityElevenConstructor::Params>
+        params(IotivityElevenConstructor::Params::Create(*info->arguments()));
 
     if (!params) {
         LOG(WARNING) << "Malformed parameters passed to " << info->name();
         return;
     }
 
-    scoped_ptr<BindingObject> obj(new OicResourceObject(this));
+    scoped_ptr<BindingObject> obj(new IotivityElevenObject(this));
     store_.AddBindingObject(params->object_id, obj.Pass());
 }
 

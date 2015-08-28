@@ -10,33 +10,21 @@ internal.setupInternalExtension(extension);
 var common = requireNative('sysapps_common');
 common.setupSysAppsCommon(internal, v8tools);
 
-// OicResource interface.
-var OicResource = function(url, object_id) {
+// IotivityEleven interface.
+// IotivityEleven is 1:1 mapping to the Iotivity C SDK.
+// 1:1... 11... Eleven, get it?
+var IotivityEleven = function(object_id) {
   common.BindingObject.call(this, object_id ? object_id : common.getUniqueId());
   common.EventTarget.call(this);
 
   if (object_id == undefined)
-    internal.postMessage("OicResourceConstructor", [this._id]);
+    internal.postMessage("IotivityElevenConstructor", [this._id]);
 
-  Object.defineProperties(this, {
-    "url": {
-      value: url,
-      enumerable: true,
-    }
-  });
-
-  // This is needed, otherwise events like "error" can get fired before
-  // we give the user a chance to register a listener.
-  function delayedInitialization(obj) {
-    obj._postMessage("init", [url]);
-  };
-
-  this._registerLifecycleTracker();
-  setTimeout(delayedInitialization, 0, this);
+  this._addMethod("OCInit");
 };
 
-OicResource.prototype = new common.EventTargetPrototype();
-OicResource.prototype.constructor = OicResource;
+IotivityEleven.prototype = new common.EventTargetPrototype();
+IotivityEleven.prototype.constructor = IotivityEleven;
 
 // Exported API.
-exports.OicResource = OicResource;
+exports.IotivityEleven = IotivityEleven;
