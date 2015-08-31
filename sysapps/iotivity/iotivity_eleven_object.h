@@ -21,6 +21,7 @@ class IotivityElevenObject : public IotivityObject {
     private:
         void RegisterHandlers();
         void OnOCInit(scoped_ptr<XWalkExtensionFunctionInfo> info);
+        void OnOCStop(scoped_ptr<XWalkExtensionFunctionInfo> info);
 
         IotivityInstance* instance_;
 };

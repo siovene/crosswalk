@@ -26,6 +26,8 @@ IotivityElevenObject::~IotivityElevenObject() {}
 void IotivityElevenObject::RegisterHandlers() {
     handler_.Register("OCInit",
         base::Bind(&IotivityElevenObject::OnOCInit, base::Unretained(this)));
+    handler_.Register("OCStop",
+        base::Bind(&IotivityElevenObject::OnOCStop, base::Unretained(this)));
 }
 
 void IotivityElevenObject::OnOCInit(scoped_ptr<XWalkExtensionFunctionInfo> info) {
@@ -38,6 +40,10 @@ void IotivityElevenObject::OnOCInit(scoped_ptr<XWalkExtensionFunctionInfo> info)
 
     OCInit(params->ip.c_str(), params->port,
         IotivityConversions::InternalToOCMode(params->mode));
+}
+
+void IotivityElevenObject::OnOCStop(scoped_ptr<XWalkExtensionFunctionInfo> info) {
+    OCStop();
 }
 
 }  // namespace sysapps

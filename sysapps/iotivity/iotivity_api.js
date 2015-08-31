@@ -21,6 +21,7 @@ var IotivityEleven = function(object_id) {
     internal.postMessage("IotivityElevenConstructor", [this._id]);
 
   this._addMethod("OCInit");
+  this._addMethod("OCStop");
 };
 
 IotivityEleven.prototype = new common.EventTargetPrototype();
