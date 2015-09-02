@@ -22,6 +22,7 @@ var IotivityEleven = function(object_id) {
 
   this._addMethod("OCInit");
   this._addMethod("OCStop");
+  this._addMethod("OCProcess");
 };
 
 IotivityEleven.prototype = new common.EventTargetPrototype();

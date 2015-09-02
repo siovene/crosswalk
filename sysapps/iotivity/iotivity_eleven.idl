@@ -68,5 +68,6 @@ namespace IotivityEleven {
     interface Functions {
         [nodoc] static eOCStackResult eOCInit(DOMString ip, long port, eOCMode mode);
         [nodoc] static void eOCStop();
+        [nodoc] static eOCStackResult eOCProcess();
     };
 };
