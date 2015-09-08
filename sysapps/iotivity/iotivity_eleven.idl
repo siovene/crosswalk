@@ -65,9 +65,12 @@ namespace IotivityEleven {
         OC_SCOPE_GLOBAL
     };
 
+    callback eOCStackResultCallback = void (eOCStackResult result);
+
     interface Functions {
-        [nodoc] static eOCStackResult eOCInit(DOMString ip, long port, eOCMode mode);
-        [nodoc] static void eOCStop();
-        [nodoc] static eOCStackResult eOCProcess();
+        [nodoc] static void eOCInit(
+            DOMString ip, long port, eOCMode mode, eOCStackResultCallback cb);
+        [nodoc] static void eOCStop(eOCStackResultCallback cb);
+        [nodoc] static void eOCProcess(eOCStackResultCallback cb);
     };
 };

@@ -40,16 +40,28 @@ void IotivityElevenObject::OnOCInit(scoped_ptr<XWalkExtensionFunctionInfo> info)
         return;
     }
 
-    OCInit(params->ip.c_str(), params->port,
+    OCStackResult stackResult = OCInit(params->ip.c_str(), params->port,
         IotivityConversions::InternalToOCMode(params->mode));
+
+    scoped_ptr<base::ListValue> result(new base::ListValue());
+    result->AppendInteger(stackResult);
+    info->PostResult(result.Pass());
 }
 
 void IotivityElevenObject::OnOCStop(scoped_ptr<XWalkExtensionFunctionInfo> info) {
-    OCStop();
+    OCStackResult stackResult = OCStop();
+
+    scoped_ptr<base::ListValue> result(new base::ListValue());
+    result->AppendInteger(stackResult);
+    info->PostResult(result.Pass());
 }
 
 void IotivityElevenObject::OnOCProcess(scoped_ptr<XWalkExtensionFunctionInfo> info) {
-    OCProcess();
+    OCStackResult stackResult = OCProcess();
+
+    scoped_ptr<base::ListValue> result(new base::ListValue());
+    result->AppendInteger(stackResult);
+    info->PostResult(result.Pass());
 }
 
 }  // namespace sysapps
