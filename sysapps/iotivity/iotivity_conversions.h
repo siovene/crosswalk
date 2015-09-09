@@ -15,10 +15,20 @@ namespace xwalk {
 namespace sysapps {
 
 using xwalk::jsapi::iotivity_eleven::EOCMode;
+using xwalk::jsapi::iotivity_eleven::EOCMethod;
+using xwalk::jsapi::iotivity_eleven::EOCConnectivityType;
+using xwalk::jsapi::iotivity_eleven::EOCQualityOfService;
+using xwalk::jsapi::iotivity_eleven::EOCTransportAdapter;
+using xwalk::jsapi::iotivity_eleven::EOCTransportFlags;
 
 class IotivityConversions {
     public:
         static OCMode InternalToOCMode(EOCMode mode);
+        static OCMethod InternalToOCMethod(EOCMethod method);
+        static OCConnectivityType InternalToOCConnectivityType(EOCConnectivityType ct);
+        static OCQualityOfService InternalToOCQualityOfService(EOCQualityOfService qos);
+        static OCTransportAdapter InternalToOCTransportAdapter(EOCTransportAdapter ta);
+        static OCTransportFlags InternalToOCTransportFlags(EOCTransportFlags tf);
 };
 
 } // namespace sysapps

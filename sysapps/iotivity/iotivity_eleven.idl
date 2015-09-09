@@ -65,12 +65,115 @@ namespace IotivityEleven {
         OC_SCOPE_GLOBAL
     };
 
+    enum eOCMethod {
+        OC_REST_NOMETHOD,
+        OC_REST_GET,
+        OC_REST_PUT,
+        OC_REST_POST,
+        OC_REST_DELETE,
+        OC_REST_OBSERVE,
+        OC_REST_OBSERVE_ALL,
+        OC_REST_CANCEL_OBSERVE,
+        OC_REST_PRESENCE,
+        OC_REST_DISCOVER
+    };
+
+    enum eOCTransportAdapter {
+        OC_DEFAULT_ADAPTER,
+        OC_ADAPTER_IP,
+        OC_ADAPTER_GATT_BTLE,
+        OC_ADAPTER_RFCOMM_BTEDR,
+        OC_ADAPTER_REMOTE_aCCESS
+    };
+
+    dictionary eOCIdentity {
+        DOMString? id;
+    };
+
+    dictionary eOCDevAddr {
+        eOCTransportAdapter? adapter;
+        eOCTransportFlags? flags;
+        DOMString? addr;
+        long? iface;
+        long? port;
+        eOCIdentity? identity;
+    };
+
+    enum eOCPayloadType {
+        PAYLOAD_TYPE_INVALID,
+        PAYLOAD_TYPE_DISCOVERY,
+        PAYLOAD_TYPE_DEVICE,
+        PAYLOAD_TYPE_PLATFORM,
+        PAYLOAD_TYPE_REPRESENTATION,
+        PAYLOAD_TYPE_SECURITY,
+        PAYLOAD_TYPE_PRESENCE
+    };
+
+    dictionary eOCPayload {
+        eOCPayloadType? type;
+    };
+
+    enum eOCConnectivityType {
+        CT_DEFAULT,
+        CT_ADAPTER_IP,
+        CT_ADAPTER_GATT_BTLE,
+        CT_ADAPTER_RFCOMM_BTEDR,
+        CT_ADAPTER_REMOTE_ACCESS,
+        CT_ADAPTER_SHIFT,
+        CT_MASK_FLAGS,
+        CT_MASK_ADAPTER,
+        CT_FLAG_SECURE,
+        CT_IP_USE_V6,
+        CT_IP_USE_V4,
+        CT_SCOPE_INTERFACE,
+        CT_SCOPE_LINK,
+        CT_SCOPE_REALM,
+        CT_SCOPE_ADMIN,
+        CT_SCOPE_SITE,
+        CT_SCOPE_ORG,
+        CT_SCOPE_GLOBAL
+    };
+
+    enum eOCQualityOfService {
+        OC_LOW_QOS,
+        OC_MEDIUM_QOS,
+        OC_HIGH_QOS,
+        OC_NA_QOS
+    };
+
+    enum eOCTransportProtocolID {
+        OC_INVALID_ID,
+        OC_COAP_ID
+    };
+
+    dictionary eOCHeaderOption {
+        eOCTransportProtocolID? protocolID;
+        long? optionID;
+        long[]? optionData;
+    };
+
     callback eOCStackResultCallback = void (eOCStackResult result);
+    callback eOCDoResourceCallback = void (
+        eOCStackResult result, long[] context);
 
     interface Functions {
+        // All functions have a callback as the last argument, for the return
+        // value. They all are asynchronous.
         [nodoc] static void eOCInit(
             DOMString ip, long port, eOCMode mode, eOCStackResultCallback cb);
         [nodoc] static void eOCStop(eOCStackResultCallback cb);
         [nodoc] static void eOCProcess(eOCStackResultCallback cb);
+
+        // Attention: OCDoResource has a few mapping quirks:
+        //  * The final `numOptions` argument is omitted, because JavaScript.
+        //  * The third last and second last arguments, `cbData` and `options`
+        //    are inverted, because `cbData` is actually replaced by a
+        //    callback and that must always be the last argument to any
+        //    function.
+        [nodoc] static void eOCDoResource(
+            long[] handle, eOCMethod method, DOMString requestUri,
+            eOCDevAddr destination, eOCPayload payload,
+            eOCConnectivityType connectivityType, eOCQualityOfService qos,
+            eOCHeaderOption options, eOCDoResourceCallback cb);
     };
 };

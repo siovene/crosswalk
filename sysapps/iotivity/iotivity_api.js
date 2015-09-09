@@ -23,6 +23,7 @@ var IotivityEleven = function(object_id) {
   this._addMethod("OCInit", true);
   this._addMethod("OCStop", true);
   this._addMethod("OCProcess", true);
+  this._addMethod("OCDoResource", true);
 };
 
 IotivityEleven.prototype = new common.EventTargetPrototype();
