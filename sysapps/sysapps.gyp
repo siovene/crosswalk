@@ -72,6 +72,8 @@
         'iotivity/iotivity_eleven.idl',
         'iotivity/iotivity_eleven_object.cc',
         'iotivity/iotivity_eleven_object.h',
+        'iotivity/iotivity_eleven_callback_context.cc',
+        'iotivity/iotivity_eleven_calllback_context.h',
         'iotivity/iotivity_conversions.cc',
         'iotivity/iotivity_conversions.h',
         'iotivity/iotivity_extension.cc',

@@ -17,6 +17,7 @@ class IotivityElevenObject : public IotivityObject {
     public:
         explicit IotivityElevenObject(IotivityInstance* instance);
         ~IotivityElevenObject();
+        using EventTarget::DispatchEvent;
 
     private:
         void RegisterHandlers();

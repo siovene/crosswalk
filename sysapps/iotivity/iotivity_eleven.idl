@@ -160,9 +160,10 @@ namespace IotivityEleven {
         // All functions have a callback as the last argument, for the return
         // value. They all are asynchronous.
         [nodoc] static void eOCInit(
-            DOMString ip, long port, eOCMode mode, eOCStackResultCallback cb);
-        [nodoc] static void eOCStop(eOCStackResultCallback cb);
-        [nodoc] static void eOCProcess(eOCStackResultCallback cb);
+            DOMString ip, long port, eOCMode mode,
+            eOCStackResultCallback resultCb);
+        [nodoc] static void eOCStop(eOCStackResultCallback resultCb);
+        [nodoc] static void eOCProcess(eOCStackResultCallback resultCb);
 
         // Attention: OCDoResource has a few mapping quirks:
         //  * The final `numOptions` argument is omitted, because JavaScript.
@@ -174,6 +175,7 @@ namespace IotivityEleven {
             long[] handle, eOCMethod method, DOMString requestUri,
             eOCDevAddr destination, eOCPayload payload,
             eOCConnectivityType connectivityType, eOCQualityOfService qos,
-            eOCHeaderOption options, eOCDoResourceCallback cb);
+            eOCHeaderOption options, long callbackId,
+            eOCStackResultCallback resultCb);
     };
 };

@@ -5,6 +5,7 @@
 #include "xwalk/sysapps/iotivity/iotivity_eleven_object.h"
 #include "xwalk/sysapps/iotivity/iotivity_eleven.h" // generated
 #include "xwalk/sysapps/iotivity/iotivity_conversions.h"
+#include "xwalk/sysapps/iotivity/iotivity_eleven_callback_context.h"
 
 extern "C" {
     #include "ocstack.h"
@@ -22,7 +23,17 @@ namespace sysapps {
 static OCStackApplicationResult defaultOCClientResponseHandler(
     void *context, OCDoHandle handle, OCClientResponse *clientResponse)
 {
-    IotivityElevenObject* ie = (IotivityElevenObject *) context;
+    IotivityElevenCallbackContext* cbContext = (IotivityElevenCallbackContext*) context;
+    IotivityElevenObject* ie = cbContext->getIotivityElevenObject();
+    int callbackId = cbContext->getCallbackId();
+
+    scoped_ptr<base::ListValue> eventData(new base::ListValue);
+    eventData->AppendInteger(callbackId);
+    ie->DispatchEvent("callback", eventData.Pass());
+
+    delete cbContext;
+
+    return OC_STACK_DELETE_TRANSACTION;
 }
 
 
@@ -39,13 +50,14 @@ IotivityElevenObject::IotivityElevenObject(IotivityInstance* instance)
 IotivityElevenObject::~IotivityElevenObject() {}
 
 void IotivityElevenObject::RegisterHandlers() {
-    handler_.Register("OCInit",
+    // Methods starting with a _ have a wrapper defined in JS.
+    handler_.Register("_OCInit",
         base::Bind(&IotivityElevenObject::OnOCInit, base::Unretained(this)));
     handler_.Register("OCStop",
         base::Bind(&IotivityElevenObject::OnOCStop, base::Unretained(this)));
     handler_.Register("OCProcess",
         base::Bind(&IotivityElevenObject::OnOCProcess, base::Unretained(this)));
-    handler_.Register("OCDoResource",
+    handler_.Register("_OCDoResource",
         base::Bind(&IotivityElevenObject::OnOCDoResource, base::Unretained(this)));
 }
 
@@ -140,7 +152,7 @@ void IotivityElevenObject::OnOCDoResource(scoped_ptr<XWalkExtensionFunctionInfo>
         options = (OCHeaderOption *) malloc(sizeof (OCHeaderOption));
     }
 
-    cbData->context = this;
+    cbData->context = new IotivityElevenCallbackContext(this, params->callback_id);
     cbData->cb = defaultOCClientResponseHandler;
     cbData->cd = NULL;
 

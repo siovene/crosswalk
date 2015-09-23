@@ -10,6 +10,10 @@
 
         <script type="text/javascript">
             var e = new xwalk.experimental.iotivity.IotivityEleven();
+            var doResourceCb = function() {
+                console.log("doResourceCb");
+            };
+
             var onOCDoResourceFinished = function(status) {
                 console.log("OCDoResource status = " + status);
 
@@ -22,15 +26,16 @@
                     }, 2000);
                 }
             };
+
             var onOCInitFinished = function(status) {
                 console.log("OCInit status = " + status);
                 if (status === 0) {
                     e.OCDoResource(
-                        [], "OC_REST_DISCOVER", "/oic/res", {}, {},
-                        "CT_DEFAULT", "OC_HIGH_QOS", {}, onOCDoResourceFinished);
+                        null, "OC_REST_DISCOVER", "/oic/res", null, null,
+                        "CT_DEFAULT", "OC_HIGH_QOS", null, doResourceCb, onOCDoResourceFinished);
                 }
             };
-            e.OCInit("", 0, "OC_CLIENT", onOCInitFinished);
+            e.OCInit(null, 0, "OC_CLIENT", onOCInitFinished);
         </script>
     </body>
 </html>
