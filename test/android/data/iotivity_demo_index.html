@@ -15,8 +15,8 @@
                 e.OCDoResource(
                     null, "OC_REST_DISCOVER", "/oic/res", null, null,
                     "CT_DEFAULT", "OC_HIGH_QOS", null,
-                    function() {
-                        console.log("OCDoResource finished.");
+                    function(handle) {
+                        console.log("OCDoHandle: " + handle);
                     }
                 );
             });

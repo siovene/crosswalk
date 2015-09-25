@@ -11,12 +11,19 @@
 namespace xwalk {
 namespace sysapps {
 
+extern "C" {
+    #include "ocstack.h"
+}
+
 class BindingObjectStore;
 
 class IotivityElevenObject : public IotivityObject {
     public:
         explicit IotivityElevenObject(IotivityInstance* instance);
         ~IotivityElevenObject();
+
+        size_t AppendHandle(OCDoHandle handle);
+
         using EventTarget::DispatchEvent;
 
     private:
@@ -27,6 +34,7 @@ class IotivityElevenObject : public IotivityObject {
         void OnOCDoResource(scoped_ptr<XWalkExtensionFunctionInfo> info);
 
         IotivityInstance* instance_;
+        std::vector<OCDoHandle> doHandles_;
 };
 
 }  // namespace sysapps

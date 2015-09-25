@@ -28,7 +28,12 @@ static OCStackApplicationResult defaultOCClientResponseHandler(
     int callbackId = cbContext->getCallbackId();
 
     scoped_ptr<base::ListValue> eventData(new base::ListValue);
-    eventData->AppendInteger(callbackId);
+    scoped_ptr<base::ListValue> content(new base::ListValue);
+
+    content->AppendInteger(callbackId);
+    content->AppendInteger(ie->AppendHandle(handle));
+
+    eventData->Append(content.release());
     ie->DispatchEvent("callback", eventData.Pass());
 
     delete cbContext;
@@ -170,6 +175,11 @@ void IotivityElevenObject::OnOCDoResource(scoped_ptr<XWalkExtensionFunctionInfo>
     scoped_ptr<base::ListValue> result(new base::ListValue());
     result->AppendInteger(stackResult);
     info->PostResult(result.Pass());
+}
+
+size_t IotivityElevenObject::AppendHandle(OCDoHandle handle) {
+    doHandles_.push_back(handle);
+    return doHandles_.size() - 1;
 }
 
 }  // namespace sysapps

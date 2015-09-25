@@ -25,9 +25,9 @@ var IotivityEleven = function(object_id) {
 
   this._addEvent("callback");
   this.oncallback = function(event) {
-    var id = event.data;
+    var id = event.data[0];
     if (_callbacks[id] !== undefined) {
-      _callbacks[id]();
+      _callbacks[id](event.data.slice(1));
     }
   };
 
