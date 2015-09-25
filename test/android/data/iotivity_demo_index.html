@@ -10,32 +10,16 @@
 
         <script type="text/javascript">
             var e = new xwalk.experimental.iotivity.IotivityEleven();
-            var doResourceCb = function() {
-                console.log("doResourceCb");
-            };
-
-            var onOCDoResourceFinished = function(status) {
-                console.log("OCDoResource status = " + status);
-
-                if (status === 0) {
-                    console.log("Entering main loop.");
-                    setInterval(function() {
-                        e.OCProcess(function(process_status) {
-                            console.log("OCProcess status = " + process_status);
-                        });
-                    }, 2000);
-                }
-            };
-
-            var onOCInitFinished = function(status) {
-                console.log("OCInit status = " + status);
-                if (status === 0) {
-                    e.OCDoResource(
-                        null, "OC_REST_DISCOVER", "/oic/res", null, null,
-                        "CT_DEFAULT", "OC_HIGH_QOS", null, doResourceCb, onOCDoResourceFinished);
-                }
-            };
-            e.OCInit(null, 0, "OC_CLIENT", onOCInitFinished);
+            setInterval(function() { e.OCProcess(); }, 2000);
+            e.OCInit(null, 0, "OC_CLIENT").then(function(status) {
+                e.OCDoResource(
+                    null, "OC_REST_DISCOVER", "/oic/res", null, null,
+                    "CT_DEFAULT", "OC_HIGH_QOS", null,
+                    function() {
+                        console.log("OCDoResource finished.");
+                    }
+                );
+            });
         </script>
     </body>
 </html>

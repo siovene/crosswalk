@@ -31,10 +31,9 @@ var IotivityEleven = function(object_id) {
     }
   };
 
-  // Methods starting with a _ have a wrapper defined below.
   this._addMethod("_OCInit", true);
-  this._addMethod("OCStop", true);
-  this._addMethod("OCProcess", true);
+  this._addMethod("_OCStop", true);
+  this._addMethod("_OCProcess", true);
   this._addMethod("_OCDoResource", true);
 
   function _wrapCallback(cb) {
@@ -43,30 +42,95 @@ var IotivityEleven = function(object_id) {
     return _nextCallbackId;
   }
 
-  // Wrapper functions sanitize some arguments and wrap callbacks.
+  // -------------------------------------------------------------------------\
+  // Wrapper functions:                                                       |
+  // -------------------------------------------------------------------------|
+  //  * sanitize arguments                                                    |
+  //  * wrap external callbacks to ids                                        |
+  //  * wrap internal callbacks to promises                                   |
+  // -------------------------------------------------------------------------/
 
   function OCInitWrapper(ip, port, mode, resultCb) {
+    var self = this;
+
     if (ip === null) ip = "";
-    this._OCInit(ip, port, mode, resultCb);
+
+    return new Promise(function(resolve, reject) {
+      self._OCInit(ip, port, mode, function(status) {
+        if (status === 0) {
+          resolve();
+        } else {
+          reject(status);
+        }
+      });
+    });
+  }
+
+  function OCStopWrapper(resultCb) {
+    var self = this;
+
+    return new Promise(function(resolve, reject) {
+      self._OCStop(function(status) {
+        if (status === 0) {
+          resolve();
+        } else {
+          reject(status);
+        }
+      });
+    });
+  }
+
+  function OCProcessWrapper(resultCb) {
+    var self = this;
+
+    return new Promise(function(resolve, reject) {
+      self._OCProcess(function(status) {
+        if (status === 0) {
+          resolve();
+        } else {
+          reject(status);
+        }
+      });
+    });
   }
 
   function OCDoResourceWrapper(
       handle, method, requestUri, destination, payload, connectivityType,
       qos, options, cb, resultCb)
   {
+    var self = this;
+
     if (handle === null) handle = [];
     if (destination === null) destination = {};
     if (payload === null) payload = {};
     if (options === null) options = {};
 
-    this._OCDoResource(
-      handle, method, requestUri, destination, payload, connectivityType,
-      qos, options, _wrapCallback(cb), resultCb);
+    return new Promise(function(resolve, reject) {
+      self._OCDoResource(
+        handle, method, requestUri, destination, payload, connectivityType,
+        qos, options, _wrapCallback(cb), function(status) {
+          if (status === 0) {
+            resolve();
+          } else {
+            reject(status);
+          }
+        });
+    });
   }
 
   Object.defineProperties(this, {
     "OCInit": {
       value: OCInitWrapper,
+      enumerable: true
+    },
+
+    "OCStop": {
+      value: OCStopWrapper,
+      enumerable: true
+    },
+
+    "OCProcess": {
+      value: OCProcessWrapper,
       enumerable: true
     },
 

@@ -50,12 +50,11 @@ IotivityElevenObject::IotivityElevenObject(IotivityInstance* instance)
 IotivityElevenObject::~IotivityElevenObject() {}
 
 void IotivityElevenObject::RegisterHandlers() {
-    // Methods starting with a _ have a wrapper defined in JS.
     handler_.Register("_OCInit",
         base::Bind(&IotivityElevenObject::OnOCInit, base::Unretained(this)));
-    handler_.Register("OCStop",
+    handler_.Register("_OCStop",
         base::Bind(&IotivityElevenObject::OnOCStop, base::Unretained(this)));
-    handler_.Register("OCProcess",
+    handler_.Register("_OCProcess",
         base::Bind(&IotivityElevenObject::OnOCProcess, base::Unretained(this)));
     handler_.Register("_OCDoResource",
         base::Bind(&IotivityElevenObject::OnOCDoResource, base::Unretained(this)));
