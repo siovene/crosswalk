@@ -8,12 +8,15 @@
 #include "xwalk/sysapps/iotivity/iotivity_extension.h"
 #include "xwalk/sysapps/iotivity/iotivity_object.h"
 
-namespace xwalk {
-namespace sysapps {
-
 extern "C" {
     #include "ocstack.h"
 }
+
+static OCStackApplicationResult defaultOCClientResponseHandler(
+    void* context, OCDoHandle handle, OCClientResponse* clientResponse);
+
+namespace xwalk {
+namespace sysapps {
 
 class BindingObjectStore;
 

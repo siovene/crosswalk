@@ -7,22 +7,17 @@
 #include "xwalk/sysapps/iotivity/iotivity_conversions.h"
 #include "xwalk/sysapps/iotivity/iotivity_eleven_callback_context.h"
 
-extern "C" {
-    #include "ocstack.h"
-}
-
-using namespace xwalk::jsapi::iotivity_eleven;
-
-namespace xwalk {
-namespace sysapps {
-
 /*****************************************************************************\
 |*  C A L L B A C K S                                                        *|
 \*****************************************************************************/
 
 static OCStackApplicationResult defaultOCClientResponseHandler(
-    void *context, OCDoHandle handle, OCClientResponse *clientResponse)
+    void* context, OCDoHandle handle, OCClientResponse* clientResponse)
 {
+    using xwalk::sysapps::IotivityElevenCallbackContext;
+    using xwalk::sysapps::IotivityElevenObject;
+    using xwalk::sysapps::IotivityConversions;
+
     IotivityElevenCallbackContext* cbContext = (IotivityElevenCallbackContext*) context;
     IotivityElevenObject* ie = cbContext->getIotivityElevenObject();
     int callbackId = cbContext->getCallbackId();
@@ -43,6 +38,10 @@ static OCStackApplicationResult defaultOCClientResponseHandler(
     return OC_STACK_DELETE_TRANSACTION;
 }
 
+using namespace xwalk::jsapi::iotivity_eleven;
+
+namespace xwalk {
+namespace sysapps {
 
 /*****************************************************************************\
 |*  M A I N   O B J E C T                                                    *|
