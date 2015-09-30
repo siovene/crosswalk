@@ -152,6 +152,16 @@ namespace IotivityEleven {
         long[]? optionData;
     };
 
+    dictionary eOCClientResponse {
+        eOCDevAddr? devAddr;
+        eOCConnectivityType? connType;
+        eOCStackResult? result;
+        long? sequenceNumber;
+        DOMString? resourceUri;
+        eOCPayload? payload;
+        eOCHeaderOption[]? rcvdVendorSpecificHeaderOptions;
+    };
+
     callback eOCStackResultCallback = void (eOCStackResult result);
     callback eOCDoResourceCallback = void (
         eOCStackResult result, long[] context);

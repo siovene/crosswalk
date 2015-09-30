@@ -32,8 +32,10 @@ static OCStackApplicationResult defaultOCClientResponseHandler(
 
     content->AppendInteger(callbackId);
     content->AppendInteger(ie->AppendHandle(handle));
+    content->Append(IotivityConversions::c2js_OCClientResponse(*clientResponse).get()->ToValue());
 
     eventData->Append(content.release());
+
     ie->DispatchEvent("callback", eventData.Pass());
 
     delete cbContext;
@@ -74,7 +76,7 @@ void IotivityElevenObject::OnOCInit(scoped_ptr<XWalkExtensionFunctionInfo> info)
     }
 
     OCStackResult stackResult = OCInit(params->ip.c_str(), params->port,
-        IotivityConversions::InternalToOCMode(params->mode));
+        IotivityConversions::js2c_OCMode(params->mode));
 
     scoped_ptr<base::ListValue> result(new base::ListValue());
     result->AppendInteger(stackResult);
@@ -117,12 +119,12 @@ void IotivityElevenObject::OnOCDoResource(scoped_ptr<XWalkExtensionFunctionInfo>
     }
 
     handle = NULL;
-    method = IotivityConversions::InternalToOCMethod(params->method);
+    method = IotivityConversions::js2c_OCMethod(params->method);
     requestUri = params->request_uri.c_str();
     destination = NULL;
     payload = NULL;
-    connectivityType = IotivityConversions::InternalToOCConnectivityType(params->connectivity_type);
-    qos = IotivityConversions::InternalToOCQualityOfService(params->qos);
+    connectivityType = IotivityConversions::js2c_OCConnectivityType(params->connectivity_type);
+    qos = IotivityConversions::js2c_OCQualityOfService(params->qos);
     cbData = (OCCallbackData *) malloc(sizeof (OCCallbackData));
     options = NULL;
 
@@ -134,8 +136,8 @@ void IotivityElevenObject::OnOCDoResource(scoped_ptr<XWalkExtensionFunctionInfo>
             strncpy((char *) identity.id, params->destination.identity->id->c_str(), 32);
         }
 
-        destination->adapter = IotivityConversions::InternalToOCTransportAdapter(params->destination.adapter);
-        destination->flags = IotivityConversions::InternalToOCTransportFlags(params->destination.flags);
+        destination->adapter = IotivityConversions::js2c_OCTransportAdapter(params->destination.adapter);
+        destination->flags = IotivityConversions::js2c_OCTransportFlags(params->destination.flags);
         if (params->destination.addr) {
             strncpy(destination->addr, params->destination.addr->c_str(), 40);
         }
@@ -150,15 +152,17 @@ void IotivityElevenObject::OnOCDoResource(scoped_ptr<XWalkExtensionFunctionInfo>
 
     if (!params->payload.ToValue()->empty()) {
         payload = (OCPayload *) malloc(sizeof (OCPayload));
+        // TODO: do payload
     }
 
     if (!params->options.ToValue()->empty()) {
         options = (OCHeaderOption *) malloc(sizeof (OCHeaderOption));
+        // TODO: do options
     }
 
     cbData->context = new IotivityElevenCallbackContext(this, params->callback_id);
     cbData->cb = defaultOCClientResponseHandler;
-    cbData->cd = NULL;
+    cbData->cd = NULL; // TODO
 
     OCStackResult stackResult = OCDoResource(
         handle, method, requestUri, destination, payload, connectivityType,

@@ -20,15 +20,35 @@ using xwalk::jsapi::iotivity_eleven::EOCConnectivityType;
 using xwalk::jsapi::iotivity_eleven::EOCQualityOfService;
 using xwalk::jsapi::iotivity_eleven::EOCTransportAdapter;
 using xwalk::jsapi::iotivity_eleven::EOCTransportFlags;
+using xwalk::jsapi::iotivity_eleven::EOCIdentity;
+using xwalk::jsapi::iotivity_eleven::EOCDevAddr;
+using xwalk::jsapi::iotivity_eleven::EOCClientResponse;
+using xwalk::jsapi::iotivity_eleven::EOCStackResult;
+using xwalk::jsapi::iotivity_eleven::EOCPayloadType;
+using xwalk::jsapi::iotivity_eleven::EOCPayload;
 
 class IotivityConversions {
     public:
-        static OCMode InternalToOCMode(EOCMode mode);
-        static OCMethod InternalToOCMethod(EOCMethod method);
-        static OCConnectivityType InternalToOCConnectivityType(EOCConnectivityType ct);
-        static OCQualityOfService InternalToOCQualityOfService(EOCQualityOfService qos);
-        static OCTransportAdapter InternalToOCTransportAdapter(EOCTransportAdapter ta);
-        static OCTransportFlags InternalToOCTransportFlags(EOCTransportFlags tf);
+        // Enums: JS to C.
+        static OCMode js2c_OCMode(const EOCMode mode);
+        static OCMethod js2c_OCMethod(const EOCMethod method);
+        static OCConnectivityType js2c_OCConnectivityType(const EOCConnectivityType ct);
+        static OCQualityOfService js2c_OCQualityOfService(const EOCQualityOfService qos);
+        static OCTransportAdapter js2c_OCTransportAdapter(const EOCTransportAdapter ta);
+        static OCTransportFlags js2c_OCTransportFlags(const EOCTransportFlags tf);
+
+        // Enums: C to JS.
+        static EOCTransportAdapter c2js_OCTransportAdapter(const OCTransportAdapter ta);
+        static EOCTransportFlags c2js_OCTransportFlags(const OCTransportFlags tf);
+        static EOCConnectivityType c2js_OCConnectivityType(const OCConnectivityType ct);
+        static EOCStackResult c2js_OCStackResult(const OCStackResult sr);
+        static EOCPayloadType c2js_OCPayloadType(const OCPayloadType t);
+
+        // Dicts: C to JS.
+        static scoped_ptr<EOCIdentity> c2js_OCIdentity(const OCIdentity& id);
+        static scoped_ptr<EOCDevAddr> c2js_OCDevAddr(const OCDevAddr& devAddr);
+        static scoped_ptr<EOCPayload> c2js_OCPayload(const OCPayload& payload);
+        static scoped_ptr<EOCClientResponse> c2js_OCClientResponse(const OCClientResponse& response);
 };
 
 } // namespace sysapps
