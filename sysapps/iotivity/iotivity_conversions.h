@@ -25,7 +25,8 @@ using xwalk::jsapi::iotivity_eleven::EOCDevAddr;
 using xwalk::jsapi::iotivity_eleven::EOCClientResponse;
 using xwalk::jsapi::iotivity_eleven::EOCStackResult;
 using xwalk::jsapi::iotivity_eleven::EOCPayloadType;
-using xwalk::jsapi::iotivity_eleven::EOCPayload;
+using xwalk::jsapi::iotivity_eleven::EOCResourcePayload;
+using xwalk::jsapi::iotivity_eleven::EOCDiscoveryPayload;
 
 class IotivityConversions {
     public:
@@ -47,7 +48,8 @@ class IotivityConversions {
         // Dicts: C to JS.
         static scoped_ptr<EOCIdentity> c2js_OCIdentity(const OCIdentity& id);
         static scoped_ptr<EOCDevAddr> c2js_OCDevAddr(const OCDevAddr& devAddr);
-        static scoped_ptr<EOCPayload> c2js_OCPayload(const OCPayload& payload);
+        static scoped_ptr<EOCResourcePayload> c2js_OCResourcePayload(const OCResourcePayload& payload);
+        static scoped_ptr<EOCDiscoveryPayload> c2js_OCDiscoveryPayload(const OCDiscoveryPayload& payload);
         static scoped_ptr<EOCClientResponse> c2js_OCClientResponse(const OCClientResponse& response);
 };
 

@@ -17,6 +17,8 @@ static OCStackApplicationResult defaultOCClientResponseHandler(
     using xwalk::sysapps::IotivityElevenCallbackContext;
     using xwalk::sysapps::IotivityElevenObject;
     using xwalk::sysapps::IotivityConversions;
+    using xwalk::sysapps::IotivityConversions;
+    using xwalk::jsapi::iotivity_eleven::EOCClientResponse;
 
     IotivityElevenCallbackContext* cbContext = (IotivityElevenCallbackContext*) context;
     IotivityElevenObject* ie = cbContext->getIotivityElevenObject();
@@ -27,7 +29,10 @@ static OCStackApplicationResult defaultOCClientResponseHandler(
 
     content->AppendInteger(callbackId);
     content->AppendInteger(ie->AppendHandle(handle));
-    content->Append(IotivityConversions::c2js_OCClientResponse(*clientResponse).get()->ToValue());
+
+    scoped_ptr<EOCClientResponse> jsClientResponse = IotivityConversions::c2js_OCClientResponse(*clientResponse);
+    EOCClientResponse* jsClientResponsePtr = jsClientResponse.get();
+    content->Append(jsClientResponsePtr->ToValue());
 
     eventData->Append(content.release());
 

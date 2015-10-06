@@ -219,10 +219,34 @@ scoped_ptr<EOCDevAddr> IotivityConversions::c2js_OCDevAddr(const OCDevAddr& devA
     return ret.Pass();
 }
 
-scoped_ptr<EOCPayload> IotivityConversions::c2js_OCPayload(const OCPayload& payload) {
-    scoped_ptr<EOCPayload> ret(new EOCPayload);
+scoped_ptr<EOCResourcePayload> IotivityConversions::c2js_OCResourcePayload(const OCResourcePayload& payload) {
+    scoped_ptr<EOCResourcePayload> ret(new EOCResourcePayload);
 
-    ret->type = IotivityConversions::c2js_OCPayloadType(payload.type);
+    ret->uri.reset(new std::string(payload.uri));
+    ret->sid.reset(new int(*payload.sid));
+    ret->types.reset(new std::vector<std::string>); // TODO
+    ret->interfaces.reset(new std::vector<std::string>); // TODO
+    ret->bitmap.reset(new int(payload.bitmap));
+    ret->secure.reset(new bool(payload.secure));
+    ret->port.reset(new int(payload.port));
+
+    return ret.Pass();
+}
+
+scoped_ptr<EOCDiscoveryPayload> IotivityConversions::c2js_OCDiscoveryPayload(const OCDiscoveryPayload& payload) {
+    scoped_ptr<EOCDiscoveryPayload> ret(new EOCDiscoveryPayload);
+    OCResourcePayload* resource = payload.resources;
+
+    while(resource != NULL) {
+        EOCResourcePayload* resourcePayload = IotivityConversions::c2js_OCResourcePayload(*resource).release();
+        linked_ptr<EOCResourcePayload> listResourcePayload(resourcePayload);
+
+        if (ret->resources == NULL) {
+            ret->resources.reset(new std::vector<linked_ptr<EOCResourcePayload> >);
+        }
+        ret->resources->push_back(listResourcePayload);
+        resource = resource->next;
+    }
 
     return ret.Pass();
 }
@@ -235,7 +259,12 @@ scoped_ptr<EOCClientResponse> IotivityConversions::c2js_OCClientResponse(const O
     ret->result = IotivityConversions::c2js_OCStackResult(response.result);
     ret->sequence_number.reset(new int(response.sequenceNumber));
     ret->resource_uri.reset(new std::string(response.resourceUri));
-    ret->payload = IotivityConversions::c2js_OCPayload(*response.payload);
+
+    switch (response.payload->type) {
+        case PAYLOAD_TYPE_DISCOVERY:
+            ret->discovery_payload = IotivityConversions::c2js_OCDiscoveryPayload(*((OCDiscoveryPayload*)response.payload));
+            break;
+    };
 
     return ret.Pass();
 }

@@ -113,6 +113,38 @@ namespace IotivityEleven {
         eOCPayloadType? type;
     };
 
+/*
+    dictionary eOCRepPayloadValue {
+        DOMString? name;
+        int[]? iArray;
+        double[]? dArray;
+        boolean[]? bArray;
+        DOMString[]? sArray;
+        eOCRepPayload[]? objArray;
+    };
+
+    dictionary eOCRepPayload {
+        DOMString? uri;
+        DOMString[]? types;
+        DOMString[]? interfaces;
+        eOCRepPayloadValue[]? values;
+    };
+*/
+
+    dictionary eOCResourcePayload {
+        DOMString? uri;
+        long? sid;
+        DOMString[]? types;
+        DOMString[]? interfaces;
+        long? bitmap;
+        boolean? secure;
+        long? port;
+    };
+
+    dictionary eOCDiscoveryPayload {
+        eOCResourcePayload[]? resources;
+    };
+
     enum eOCConnectivityType {
         CT_DEFAULT,
         CT_ADAPTER_IP,
@@ -158,7 +190,7 @@ namespace IotivityEleven {
         eOCStackResult? result;
         long? sequenceNumber;
         DOMString? resourceUri;
-        eOCPayload? payload;
+        eOCDiscoveryPayload? discoveryPayload;
         eOCHeaderOption[]? rcvdVendorSpecificHeaderOptions;
     };
 
