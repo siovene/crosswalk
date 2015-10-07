@@ -221,11 +221,27 @@ scoped_ptr<EOCDevAddr> IotivityConversions::c2js_OCDevAddr(const OCDevAddr& devA
 
 scoped_ptr<EOCResourcePayload> IotivityConversions::c2js_OCResourcePayload(const OCResourcePayload& payload) {
     scoped_ptr<EOCResourcePayload> ret(new EOCResourcePayload);
+    scoped_ptr<std::vector<std::string> > types(new std::vector<std::string>);
+    scoped_ptr<std::vector<std::string> > interfaces(new std::vector<std::string>);
+    OCStringLL* ptr;
 
     ret->uri.reset(new std::string(payload.uri));
     ret->sid.reset(new int(*payload.sid));
-    ret->types.reset(new std::vector<std::string>); // TODO
-    ret->interfaces.reset(new std::vector<std::string>); // TODO
+
+    ptr = payload.types;
+    while(ptr != NULL) {
+        types->push_back(std::string(ptr->value));
+        ptr = ptr->next;
+    }
+    ret->types.reset(types.release());
+
+    ptr = payload.interfaces;
+    while(ptr != NULL) {
+        interfaces->push_back(std::string(ptr->value));
+        ptr = ptr->next;
+    }
+    ret->interfaces.reset(interfaces.release());
+
     ret->bitmap.reset(new int(payload.bitmap));
     ret->secure.reset(new bool(payload.secure));
     ret->port.reset(new int(payload.port));
