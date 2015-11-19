@@ -122,7 +122,7 @@ void IotivityElevenObject::OnOCDoResource(scoped_ptr<XWalkExtensionFunctionInfo>
         return;
     }
 
-    handle = NULL;
+    handle = NULL; // TODO
     method = IotivityConversions::js2c_OCMethod(params->method);
     requestUri = params->request_uri.c_str();
     destination = NULL;
