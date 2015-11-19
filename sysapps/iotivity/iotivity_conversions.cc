@@ -195,7 +195,7 @@ EOCPayloadType IotivityConversions::c2js_OCPayloadType(const OCPayloadType t) {
 
 
 /*****************************************************************************\
-|*  DICTS: JS TO C.                                                          *|
+|*  DICTS: C TO JS.                                                          *|
 \*****************************************************************************/
 
 scoped_ptr<EOCIdentity> IotivityConversions::c2js_OCIdentity(const OCIdentity& id) {
